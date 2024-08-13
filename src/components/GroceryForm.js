@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 
-export function GroceryForm(){
+export function GroceryForm({addItem}){
     const [value, setValue] = useState("");
 
     const handleSubmit = e => {
         e.preventDefault();
+
+        addItem(value);
+
+        setValue("");
     }
 
     return (
