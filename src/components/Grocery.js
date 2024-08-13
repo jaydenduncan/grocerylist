@@ -1,5 +1,16 @@
-export function Grocery(){
+import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+
+export function Grocery({item}){
     return (
-        <h1>This is the Grocery Component</h1>
+        <div className="Grocery">
+            <p> {item} </p>
+            <div>
+                <FontAwesomeIcon icon={faPenToSquare} />
+                <FontAwesomeIcon icon={faTrash} />
+            </div>
+        </div>
     );
 }
