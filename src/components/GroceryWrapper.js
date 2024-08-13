@@ -1,5 +1,11 @@
+import React from "react";
+import { GroceryForm } from "./GroceryForm";
+
 export function GroceryWrapper(){
     return (
-        <h1>This is the GroceryWrapper Component</h1>
+        <div className="GroceryWrapper">
+            <h1>Add Shopping Items!</h1>
+            <GroceryForm />
+        </div>
     );
 }
