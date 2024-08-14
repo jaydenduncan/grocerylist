@@ -32,7 +32,7 @@ export function GroceryWrapper(){
     };
 
     const deleteItem = id => {
-        // Delete item
+        setItems(items.filter(item => item.id !== id));
     }
 
     return (
