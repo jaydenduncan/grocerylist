@@ -74,3 +74,8 @@ h1{
 .fa-trash{
   margin-left: 0.75rem;
 }
+
+.found{
+  color: #c2c0bc;
+  text-decoration: line-through;
+}
