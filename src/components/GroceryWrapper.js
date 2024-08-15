@@ -29,15 +29,42 @@ export function GroceryWrapper(){
     };
 
     const editItem = id => {
-        setItems(items.map(item => item.id === id ?
-            {...item, isEditing: !item.isEditing} : item
-        ));
+        // Make get and put request to server to flip isEditing property
+        fetch(`/groceries/${id}`)
+        .then(res => res.json())
+        .then(item => {
+            fetch(`/groceries/${id}`, {
+                method: 'put',
+                headers: {'Content-Type':'application/json'},
+                body: JSON.stringify({
+                    "isEditing": !item.isEditing
+                })
+            })
+            .then(res => res)
+            .then(data => initialize())
+            .catch(err => console.log(err));
+        })
+        .catch(err => console.log(err));
     };
 
     const editName = (name, id) => {
-        setItems(items.map(item => item.id === id ?
-            {...item, name, isEditing: !item.isEditing} : item
-        ));
+        // Make get and put request to server to change name property
+        fetch(`/groceries/${id}`)
+        .then(res => res.json())
+        .then(item => {
+            fetch(`/groceries/${id}`, {
+                method: 'put',
+                headers: {'Content-Type':'application/json'},
+                body: JSON.stringify({
+                    "name": name,
+                    "isEditing": !item.isEditing
+                })
+            })
+            .then(res => res)
+            .then(data => initialize())
+            .catch(err => console.log(err));
+        })
+        .catch(err => console.log(err));
     };
 
     const deleteItem = id => {
@@ -74,7 +101,7 @@ export function GroceryWrapper(){
             <GroceryForm addItem={addItem} />
             {items.map((item, index) => (
                 item.isEditing ? (
-                    <EditGroceryForm editItem={editName} item={item} />
+                    <EditGroceryForm editItem={editName} key={index} item={item} />
                 ) : (
                     <Grocery item={item} key={index} toggleFound={toggleFound} 
                     editItem={editItem} deleteItem={deleteItem} />
