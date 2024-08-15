@@ -23,9 +23,22 @@ export function GroceryWrapper(){
     };
 
     const toggleFound = id => {
-        setItems(items.map(item => item.id === id ? 
-            {...item, found: !item.found} : item
-        ));
+        // Make get and put request to server to flip found property
+        fetch(`/groceries/${id}`)
+        .then(res => res.json())
+        .then(item => {
+            fetch(`/groceries/${id}`, {
+                method: 'put',
+                headers: {'Content-Type':'application/json'},
+                body: JSON.stringify({
+                    "found": !item.found
+                })
+            })
+            .then(res => res)
+            .then(data => initialize())
+            .catch(err => console.log(err));
+        })
+        .catch(err => console.log(err));
     };
 
     const editItem = id => {
