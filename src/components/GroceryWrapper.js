@@ -42,6 +42,14 @@ export function GroceryWrapper(){
 
     const deleteItem = id => {
         setItems(items.filter(item => item.id !== id));
+
+        // Make delete request to server
+        fetch(`/groceries/${id}`, {
+            method: 'delete'
+        })
+        .then(res => res)
+        .then(data => initialize())
+        .catch(err => console.log(err));
     }
 
     const initialize = () => {
