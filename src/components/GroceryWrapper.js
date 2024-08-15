@@ -1,16 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { GroceryForm } from "./GroceryForm";
 import { Grocery } from "./Grocery";
-import { v4 as uuidv4 } from "uuid";
 import { EditGroceryForm } from "./EditGroceryForm";
-
-uuidv4();
 
 export function GroceryWrapper(){
     const [items, setItems] = useState([]);
 
     const addItem = item => {
-        setItems([...items, {id: uuidv4(), name: item, found: false, isEditing: false}]);
+        // Make post request to server
+        fetch("/groceries", {
+            method: 'post',
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({
+                "name": item,
+                "found": false,
+                "isEditing": false
+            })
+        })
+        .then(res => res)
+        .then(data => initialize())
+        .catch(err => console.log(err));
     };
 
     const toggleFound = id => {
@@ -34,6 +43,22 @@ export function GroceryWrapper(){
     const deleteItem = id => {
         setItems(items.filter(item => item.id !== id));
     }
+
+    const initialize = () => {
+        // Inititalize app with data from server
+        fetch("/groceries")
+        .then((res) => res.json())
+        .then((data) => {
+            console.log(data);
+            setItems(data);
+        })
+        .catch((err) => console.log(err));
+    }
+
+    useEffect(() => {
+        // Initialize app upon rendering component
+        initialize();
+    }, []);
 
     return (
         <div className="GroceryWrapper">
